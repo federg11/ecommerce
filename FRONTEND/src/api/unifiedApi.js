@@ -1,17 +1,27 @@
 import axios from 'axios';
 
-// URL del backend en producción
-const API_URL = 'https://techinsumos-backend.onrender.com/api';
-
-console.log('🌐 API Base URL:', API_URL);
-
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: 'https://techinsumos-backend.onrender.com/api',
   timeout: 15000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
+
+api.interceptors.request.use((config) => {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (userInfo && userInfo.token) {
+    config.headers.Authorization = `Bearer ${userInfo.token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.message);
+    return Promise.reject(error);
+  }
+);
+
+export default api;
 
 // Request interceptor for auth token
 api.interceptors.request.use((config) => {
