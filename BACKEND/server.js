@@ -20,7 +20,8 @@ const allowedOrigins = [
   'http://localhost:5174', 
   'http://localhost:5175',
   'http://localhost:3000',
-  process.env.FRONTEND_URL // URL de Vercel en producción
+  'https://tech-insumos.vercel.app',
+  process.env.FRONTEND_URL
 ].filter(Boolean);
 
 const corsOptions = {
