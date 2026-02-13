@@ -14,10 +14,16 @@ connectDB();
 
 const app = express();
 
-//Middlewares
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174'] }));
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+// CORS - permite localhost en desarrollo y dominio de producción
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL || true 
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
+};
+
+app.use(cors(corsOptions));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 //Ruta de prueba inicial
 app.use('/api/users', userRoutes)
