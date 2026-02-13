@@ -1,14 +1,12 @@
 import axios from 'axios';
 
-const isProduction = import.meta.env.MODE === "production";
-const BASE_URL = isProduction 
-  ? "https://techinsumos-backend.onrender.com/api"
-  : "http://localhost:8000/api";
+const BASE_URL = "https://techinsumos-backend.onrender.com/api";
 
-console.log('API Base URL:', BASE_URL, 'Production:', isProduction);
+console.log('🌐 API Base URL:', BASE_URL);
 
 const api = axios.create({
   baseURL: BASE_URL,
+  timeout: 10000,
 });
 
 // Request interceptor for auth token
@@ -17,15 +15,24 @@ api.interceptors.request.use((config) => {
   if (userInfo && userInfo.token) {
     config.headers.Authorization = `Bearer ${userInfo.token}`;
   }
+  console.log('📤 Request to:', config.baseURL + config.url);
   return config;
 });
 
 // Response interceptor for error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('📥 Response:', response.status, response.config.url);
+    return response;
+  },
   (error) => {
-    const message = error.response?.data?.message || error.message;
-    console.error('API Error:', message);
+    console.error('❌ API Error:', error.message);
+    if (error.code === 'ECONNABORTED') {
+      console.error('Timeout - El servidor tardó demasiado en responder');
+    }
+    if (!error.response) {
+      console.error('No response - Verifica la conexión');
+    }
     return Promise.reject(error);
   }
 );
