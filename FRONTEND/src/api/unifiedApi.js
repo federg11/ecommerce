@@ -1,13 +1,16 @@
 import axios from 'axios';
 
-// En producción usa el proxy de Vercel (/api), en desarrollo usa localhost
-const BASE_URL = import.meta.env.DEV ? 'http://localhost:8000/api' : '/api';
+// URL del backend en producción
+const API_URL = 'https://techinsumos-backend.onrender.com/api';
 
-console.log('🌐 API Base URL:', BASE_URL);
+console.log('🌐 API Base URL:', API_URL);
 
 const api = axios.create({
-  baseURL: BASE_URL,
-  timeout: 10000,
+  baseURL: API_URL,
+  timeout: 15000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Request interceptor for auth token

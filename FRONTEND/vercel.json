@@ -3,8 +3,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
-  "rootDirectory": "FRONTEND",
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://techinsumos-backend.onrender.com/api/:path*" }
-  ]
+  "rootDirectory": "FRONTEND"
 }
