@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || "/api";
+const isProduction = import.meta.env.MODE === "production";
+const BASE_URL = isProduction 
+  ? "https://techinsumos-backend.onrender.com/api"
+  : "http://localhost:8000/api";
+
+console.log('API Base URL:', BASE_URL, 'Production:', isProduction);
 
 const api = axios.create({
   baseURL: BASE_URL,
