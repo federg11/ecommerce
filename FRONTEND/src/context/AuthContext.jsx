@@ -45,8 +45,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUserInfo(null);
     localStorage.removeItem('userInfo');
-    // Redirigir opcionalmente
-    window.location.href = '/login';
   };
 
   // Efecto para verificar si el token expiró (opcional pero recomendado)
