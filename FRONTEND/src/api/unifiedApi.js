@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// En producción usa el proxy de Vercel (/api), en desarrollo usa localhost
+const BASE_URL = import.meta.env.DEV ? 'http://localhost:8000/api' : '/api';
 
 console.log('🌐 API Base URL:', BASE_URL);
 
