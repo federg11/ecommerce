@@ -14,11 +14,25 @@ connectDB();
 
 const app = express();
 
-// CORS - permite localhost en desarrollo y dominio de producción
+// CORS - permite el frontend de producción y localhost en desarrollo
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174', 
+  'http://localhost:5175',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL // URL de Vercel en producción
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL || true 
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
+  origin: function(origin, callback) {
+    // Permitir requests sin origen (como Postman) o si está en la lista permitida
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true
 };
 
 app.use(cors(corsOptions));
