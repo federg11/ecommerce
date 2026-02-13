@@ -14,14 +14,11 @@ const CatalogScreen = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        console.log('Cargando productos...');
         const { data } = await api.get('/products');
-        console.log('Productos obtenidos:', data);
         setProducts(data);
         setFilteredProducts(data);
       } catch (error) {
         console.error("Error cargando el catálogo", error);
-        console.error("Error details:", error.response?.data || error.message);
       } finally {
         setLoading(false);
       }
