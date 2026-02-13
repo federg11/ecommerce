@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "https://techinsumos-backend.onrender.com/api";
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 console.log('🌐 API Base URL:', BASE_URL);
 
